@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/andreaskasper/wordpress-nimbuscloud
  * Description: Connect Nimbuscloud to your Wordpress
  * Author: Andreas Kasper
- * Version: 0.1.2
+ * Version: 0.1.3
  * Author URI: https://github.com/andreaskasper/
  * Network: True
  * Text Domain: goo1-nimbuscloud
@@ -58,7 +58,7 @@ add_action( 'woocommerce_product_data_panels', function() {
     $arr = get_post_meta($post_id);
         
     $arr2 = array("" => "Wähle einen Kurs");
-    $rows = goo1_bachmann_nimbuscloud_getcourses();
+    $rows = goo1_nimbuscloud_getcourses();
     foreach ($rows["content"]["courses"] as $row) {
         $arr2[$row["courseId"]] = $row["displayName"]." [".$row["courseId"]."]";
     }
@@ -67,15 +67,15 @@ add_action( 'woocommerce_product_data_panels', function() {
         'id'            => 'wc_nimbuscloud_course_id',
         'wrapper_class' => 'show_if_simple',
         "desc_tip" => true,
-        'label'         => __('Kurs:', 'goo1-bachmann'),
-        'description'   => __('abc', 'goo1-bachmann'),
+        'label'         => __('Kurs:', 'goo1-nimbuscloud'),
+        'description'   => __('abc', 'goo1-nimbuscloud'),
         'options'       => $arr2,
         'value'         => $arr["wc_nimbuscloud_course_id"][0] ?? ""
     ));
 
     if (!empty($arr["wc_nimbuscloud_course_id"][0])) {
 
-    $rows = goo1_bachmann_nimbuscloud_getcourse($arr["wc_nimbuscloud_course_id"][0]);
+    $rows = goo1_nimbuscloud_getcourse($arr["wc_nimbuscloud_course_id"][0]);
     //print_r($rows);
     $arr2 = array("" => "Wähle einen OnlineKurs");
     foreach ($rows["content"]["courses"] as $row) {
@@ -86,26 +86,26 @@ add_action( 'woocommerce_product_data_panels', function() {
         'id'            => 'wc_nimbuscloud_courseonline_id',
         'wrapper_class' => 'show_if_simple',
         "desc_tip" => true,
-        'label'         => __('Online Kurs:', 'goo1-bachmann'),
-        'description'   => __('abc', 'goo1-bachmann'),
+        'label'         => __('Online Kurs:', 'goo1-nimbuscloud'),
+        'description'   => __('abc', 'goo1-nimbuscloud'),
         'options'       => $arr2,
         'value'         => $arr["wc_nimbuscloud_courseonline_id"][0] ?? ""
     ));
     
     $arr2 = array("" => "Wähle einen Starttermin");
-    $arr2[$rows["content"]["courses"][0]["startEventId"]] = "Erster Termin [".$rows["content"]["courses"][0]["startEventId"]."]";
+    $arr2[$rows["content"]["courses"][0]["startEventId"]] = "Nächster Termin [".$rows["content"]["courses"][0]["startEventId"]."]";
     foreach ($rows["content"]["courses"][0]["events"] as $row) {
         $arr2[$row["id"]] = date("D d.m.Y H:i",$row["start_time"])."Uhr [".$row["id"]."]";
     }
-    $arr2[$rows["content"]["courses"][0]["startEventId"]] = "Erster Termin [".$rows["content"]["courses"][0]["startEventId"]."]";
+    $arr2[$rows["content"]["courses"][0]["startEventId"]] = "Nächster Termin [".$rows["content"]["courses"][0]["startEventId"]."]";
     
 
     woocommerce_wp_select(array(
         'id'            => 'wc_nimbuscloud_firstevent_id',
         'wrapper_class' => 'show_if_simple',
         "desc_tip" => true,
-        'label'         => __('Starttermin ID', 'goo1-bachmann'),
-        'description'   => __('abc', 'goo1-bachmann'),
+        'label'         => __('Starttermin ID', 'goo1-nimbuscloud'),
+        'description'   => __('abc', 'goo1-nimbuscloud'),
         'options'       => $arr2,
         'value'         => $arr["wc_nimbuscloud_firstevent_id"][0] ?? ""
     ));
@@ -124,9 +124,10 @@ add_action('woocommerce_process_product_meta', function($post_id) {
     if (isset($_POST['wc_nimbuscloud_firstevent_id'])) update_post_meta($post_id, "wc_nimbuscloud_firstevent_id", $_POST['wc_nimbuscloud_firstevent_id'] ?? "");
 });
 
-add_action( 'woocommerce_payment_complete', 'goo1_bachmann_payment_complete' );
-function goo1_bachmann_payment_complete( $order_id ){
+add_action( 'woocommerce_payment_complete', 'goo1_nimbuscloud_payment_complete' );
+function goo1_nimbuscloud_payment_complete( $order_id ){
     $order = wc_get_order( $order_id );
+    $order->add_order_note("Zahlung abgeschlossen übertrage Daten an die Nimbuscloud wenn möglich.");
     $user = $order->get_user();
     if( $user ){
         // do something with the user
@@ -137,8 +138,8 @@ function goo1_bachmann_payment_complete( $order_id ){
         $arr = get_post_meta($item->get_product_id());
         if (empty($arr["wc_nimbuscloud_course_id"][0]) AND empty($arr["wc_nimbuscloud_courseonline_id"][0])) continue;
         
-        
-        $anmerkungen = "Anmeldung über Webseite ".$_SERVER["HTTP_HOST"].", WooCommerce Order-ID: ".$order_id."   ".json_encode(get_post_meta($order_id));
+        $item_meta_data = $item->get_meta_data();
+        $anmerkungen = "Anmeldung über Webseite ".$_SERVER["HTTP_HOST"].", WooCommerce Order-ID: ".$order_id."   ".json_encode(get_post_meta($order_id))."   ".json_encode($item_meta_data);
 
         $w = array();
         $w["apikey"] = get_option("goo1_nimbuscloud_apikey","");
@@ -181,8 +182,6 @@ function goo1_bachmann_payment_complete( $order_id ){
         $w["typeOfRegistration"] = "course-".$w["course-id"];
         $w["typeOfRegistrationText"] = "---";
 
-        print_r($w);
-
         $payload = http_build_query($w);
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -199,31 +198,25 @@ function goo1_bachmann_payment_complete( $order_id ){
                 'Content-Type: application/x-www-form-urlencoded'
             ),
         ));
-    
 
         $response = curl_exec($curl);
 
         curl_close($curl);
         $json = json_decode($response, true);
-        if ($json["statuscode"] == 400) {
-            die('<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>');
-            print_r($w);
-            throw new \Exception("Nimbuscloud gibt einen Fehler 400 zurück. ".$json["status"]."  ".$json["content"]["message"]);
-            //Wenn ein Fehler zurückkommt
+        switch ($json["statuscode"] ?? "") {
+            case 400:
+            case 404:
+            case 405:
+                die('<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>');
+                print_r($w);
+                throw new \Exception("Nimbuscloud gibt einen Fehler 400 zurück. ".$json["status"]."  ".$json["content"]["message"]);
+            default:
         }
-        if ($json["statuscode"] == 404) {
-            echo($payload);
-            die('<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>');
-            //print_r($w);
-            //throw new \Exception("Nimbuscloud gibt einen Fehler 400 zurück. ".$json["status"]."  ".$json["content"]["message"]);
-            //Wenn ein Fehler zurückkommt
-        }
-        //echo($response);
-        //die('<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>');
+        $order->add_order_note(json_encode($json, JSON_PRETTY_PRINT));
     }
 }
 
-function goo1_bachmann_nimbuscloud_getcourses() : Array {
+function goo1_nimbuscloud_getcourses() : Array {
     $payload = http_build_query(array("apikey" => get_option("goo1_nimbuscloud_apikey","")));
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -248,7 +241,7 @@ function goo1_bachmann_nimbuscloud_getcourses() : Array {
     return json_decode($response, true);
 }
 
-function goo1_bachmann_nimbuscloud_getcourse(int $id) : Array {
+function goo1_nimbuscloud_getcourse(int $id) : Array {
     $payload = http_build_query(array("apikey" => get_option("goo1_nimbuscloud_apikey",""), "id" => $id));
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -273,9 +266,18 @@ function goo1_bachmann_nimbuscloud_getcourse(int $id) : Array {
     return json_decode($response, true);
 }
 
-/*if (!empty($_GET["test"])) {
+if (!empty($_GET["test"])) {
     add_action( 'woocommerce_after_register_post_type',  function() {
-        goo1_bachmann_payment_complete(99);
+        goo1_nimbuscloud_payment_complete(103);
         exit(1);
     });
-}*/
+}
+
+if (!class_exists("Puc_v4_Factory")) {
+	require_once(__DIR__."/plugin-update-checker/plugin-update-checker.php");
+}
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    "https://raw.githubusercontent.com/andreaskasper/wordpress-nimbuscloud/main/dist/updater.json",
+    __FILE__, //Full path to the main plugin file or functions.php.
+    "goo1-nimbuscloud"
+);

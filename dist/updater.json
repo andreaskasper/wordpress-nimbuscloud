@@ -1,0 +1,32 @@
+{
+    "name": "goo1 Nimbuscloud Plugin",
+    "version": "0.1.3",
+    "download_url": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-nimbuscloud\/main\/dist\/goo1-nimbuscloud.zip",
+    "homepage": "https:\/\/github.com\/andreaskasper\/",
+    "requires": "3.5",
+    "tested": "5.8.1",
+    "last_updated": "2021-11-16 18:33:19",
+    "upgrade_notice": "First release",
+    "author": "Andreas Kasper",
+    "author_homepage": "https:\/\/goo1.de\/",
+    "sections": {
+        "description": "<p>The Wordpress Plugin implement all the functions you need to organize your danceschool with the Nimbuscloud-<\/p>",
+        "installation": "Please contact Andreas Kasper for the install and setup. The plugin is a customized plugin and not available in the official store!",
+        "changelog": "<h2>Changelog<\/h2><p>Basic Shortcodes<\/p>",
+        "Shortcodes": "<h2>Shortcodes<\/h2><table><\/table>",
+        "Kontakt_Andreas": ""
+    },
+    "icons": {
+        "1x": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-nimbuscloud\/main\/dist\/logo_128.png",
+        "2x": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-nimbuscloud\/main\/dist\/logo_256.png"
+    },
+    "banners": {
+        "low": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-nimbuscloud\/main\/dist\/banner_250.jpg",
+        "high": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-nimbuscloud\/main\/dist\/banner_500.jpg"
+    },
+    "translations": [],
+    "rating": 90,
+    "num_ratings": 12,
+    "downloaded": 12345,
+    "active_installs": 1234
+}
