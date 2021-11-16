@@ -34,7 +34,7 @@ class core {
           'goo1_nimbuscloud_apiurl',
           'Nimbuscloud URL Host',
           function() {
-              echo('<INPUT type="text" class="regular-text" name="goo1_nimbuscloud_apiurl" value="'.esc_attr(get_option("goo1_nimbuscloud_apiurl","")).'" PATTERN="[A-Za-z0-9-\.]+"/>');
+              echo('<INPUT type="text" class="regular-text" name="goo1_nimbuscloud_apiurl" value="'.esc_attr(get_option("goo1_nimbuscloud_apiurl","")).'" PATTERN="[A-Za-z0-9-\.]+" PLACEHOLDER="example.nimbuscloud.at"/>');
           },
           'general',
           'default',
