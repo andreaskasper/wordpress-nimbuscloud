@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: goo1 Nimbuscloud Plugin
- * Plugin URI: https://github.com/andreaskasper/
+ * Plugin URI: https://github.com/andreaskasper/wordpress-nimbuscloud
  * Description: Connect Nimbuscloud to your Wordpress
  * Author: Andreas Kasper
  * Version: 0.1.2
