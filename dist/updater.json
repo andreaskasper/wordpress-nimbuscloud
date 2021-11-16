@@ -6,12 +6,12 @@
     "requires": "3.5",
     "tested": "5.8.2",
     "last_updated": "2021-11-16 22:34:26",
-    "upgrade_notice": "First release",
+    "upgrade_notice": "This new version brings a few bugfixes and a lot of new features and enhancements.",
     "author": "Andreas Kasper",
     "author_homepage": "https:\/\/github.com\/andreaskasper\/",
     "sections": {
-        "description": "<p>The Wordpress Plugin implement all the functions you need to organize your danceschool with the Nimbuscloud-<\/p>",
-        "installation": "Please contact Andreas Kasper for the install and setup. The plugin is a customized plugin and not available in the official store!",
+        "description": "<p>The Wordpress Plugin implement all the functions you need to organize your dancestudio with the Nimbuscloud<\/p>",
+        "installation": "Please contact Andreas Kasper for the install and setup if you have problems. The plugin is a special plugin and not available in the official store!",
         "changelog": "<h2>Changelog<\/h2><p>Basic Shortcodes<\/p>",
         "Shortcodes": "<h2>Shortcodes<\/h2><table><\/table>",
         "Kontakt_Andreas": ""
