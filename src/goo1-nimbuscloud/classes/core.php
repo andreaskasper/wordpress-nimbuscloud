@@ -121,6 +121,17 @@ class core {
     if (isset($_POST['wc_nimbuscloud_courseonline_id'])) update_post_meta($post_id, "wc_nimbuscloud_courseonline_id", $_POST['wc_nimbuscloud_courseonline_id'] ?? "");
       if (isset($_POST['wc_nimbuscloud_firstevent_id'])) update_post_meta($post_id, "wc_nimbuscloud_firstevent_id", $_POST['wc_nimbuscloud_firstevent_id'] ?? "");
   });
+
+ 
+  add_action( 'woocommerce_order_actions',  function( $actions) {
+    $actions['wc_send_nimbuscloud'] = __( 'Sende an Nimbuscloud', 'goo1-nimbuscloud' );
+    return $actions;
+  } );
+  
+  
+  add_action( 'woocommerce_order_action_wc_send_nimbuscloud', function( \WC_Order $order ) {
+    self::hook_payment_complete($order->get_id());
+  });
   
     add_action( 'woocommerce_payment_complete', array(__CLASS__, 'goo1_nimbuscloud_payment_complete'));
 
