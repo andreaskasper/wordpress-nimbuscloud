@@ -7,6 +7,9 @@ Supports WooCommerce and Elementor as editor.
 #### Bugs & Issues:
 ![Github Issues](https://img.shields.io/github/issues/andreaskasper/wordpress-nimbuscloud.svg)
 
+### Stats:
+![Activities](https://img.shields.io/github/commit-activity/m/andreaskasper/wordpress-nimbuscloud.svg)
+![Last Commit](https://img.shields.io/github/last-commit/andreaskasper/wordpress-nimbuscloud.svg)
 ![Code Languages](https://img.shields.io/github/languages/top/andreaskasper/wordpress-nimbuscloud.svg)
 
 ### Shortcodes
@@ -16,7 +19,7 @@ Supports WooCommerce and Elementor as editor.
 
 ### Steps
 - [x] Build a base test image to test this build process (Travis/Docker)
-- [ ] Split into classes
+- [x] Split into classes
 - [ ] Build tests
 - [ ] add action to autobuild zip
 - [ ] Gnomes
