@@ -133,8 +133,7 @@ class core {
     self::hook_payment_complete($order->get_id());
   });
   
-    add_action( 'woocommerce_payment_complete', array(__CLASS__, 'goo1_nimbuscloud_payment_complete'));
-
+    add_action( 'woocommerce_payment_complete', array('\plugins\goo1\nimbuscloud\core', 'hook_payment_complete'));
     do_action("goo1_nimbuscloud_loaded");
   }
 
