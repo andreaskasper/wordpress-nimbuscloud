@@ -16,7 +16,6 @@ Supports WooCommerce and Elementor as editor.
 | Shortcode             | Parameters | Default | Description                                                        |
 |:---------------------:|:----------:|:-------:|:------------------------------------------------------------------ |
 
-
 ### Steps
 - [x] Build a base test image to test this build process (Travis/Docker)
 - [x] Split into classes
@@ -25,6 +24,9 @@ Supports WooCommerce and Elementor as editor.
 - [ ] Gnomes
 - [ ] Profit
 
+### Links
+- Nimbus API Description: https://help.nimbuscloud.at/?route=/pages/api
+
 ### support the projects :hammer_and_wrench:
-* [![donate via Patreon](https://img.shields.io/badge/Donate-Patreon-green.svg)](https://www.patreon.com/AndreasKasper)
-* [![donate via PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/AndreasKasper)
+[![donate via Patreon](https://img.shields.io/badge/Donate-Patreon-green.svg)](https://www.patreon.com/AndreasKasper)
+[![donate via PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/AndreasKasper)
