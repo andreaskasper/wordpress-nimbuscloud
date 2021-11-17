@@ -147,63 +147,65 @@ class core {
 
     $items = $order->get_items();
     foreach ( $items as $item ) {
-        $arr = get_post_meta($item->get_product_id());
-        if (empty($arr["wc_nimbuscloud_course_id"][0]) AND empty($arr["wc_nimbuscloud_courseonline_id"][0])) continue;
-        
-        $item_meta_data = $item->get_meta_data();
-        $anmerkungen = "Anmeldung über Webseite ".$_SERVER["HTTP_HOST"].PHP_EOL."WooCommerce Order-ID: ".$order_id.PHP_EOL;
-        foreach ($item_meta_data as $a) {
-          $a2 = $a->get_data();
-          if (empty($a2["key"]) OR !isset($a2["value"])) continue;
-          $anmerkungen .= $a2["key"].": ".$a2["value"].PHP_EOL;
-        }
-        $anmerkungen .= "----------".PHP_EOL.json_encode(get_post_meta($order_id));
+        for ($anzahl = 0; $anzahl < max(1,$item->get_quantity()); $anzahl++) {
+          $arr = get_post_meta($item->get_product_id());
+          if (empty($arr["wc_nimbuscloud_course_id"][0]) AND empty($arr["wc_nimbuscloud_courseonline_id"][0])) continue;
+          
+          $item_meta_data = $item->get_meta_data();
+          $anmerkungen = "Anmeldung über Webseite ".$_SERVER["HTTP_HOST"].PHP_EOL."WooCommerce Order-ID: ".$order_id.PHP_EOL;
+          foreach ($item_meta_data as $a) {
+            $a2 = $a->get_data();
+            if (empty($a2["key"]) OR !isset($a2["value"])) continue;
+            $anmerkungen .= $a2["key"].": ".$a2["value"].PHP_EOL;
+          }
+          $anmerkungen .= "----------".PHP_EOL.json_encode(get_post_meta($order_id));
 
-        $w = array();
-        $w["customerCity"] = $order->get_billing_city();
-        $w["customerFirstname"] = $order->get_billing_first_name();
-        $w["customerGender"] = "m";
-        $w["customerPhone"] = $order->get_billing_phone();
-        $w["customerStreet"] = $order->get_billing_address_1();
-        $w["customerSurname"] = $order->get_billing_last_name();
-        $w["customerZIP"] = $order->get_billing_postcode();
-        //$w["coupon-id"] = null;
-        $w["course-id"] = $arr["wc_nimbuscloud_course_id"][0];
-        if (!empty($arr["wc_nimbuscloud_courseonline_id"][0])) $w["course-onlineid"] = $arr["wc_nimbuscloud_courseonline_id"][0];
-        else $w["course-onlineid"] = \plugins\goo1\nimbuscloud\api::get_first_onlinecourse_id($w["course-id"]);
-        //$w["customerAccountOwner"] = null;
-        //$w["customerBic"] = null;
-        //$w["customerBirthday"] = null;
-        //$w["customerIban"] = null;
-        $w["customerMail"] = $order->get_billing_email();
-        $w["customerMessage"] = $anmerkungen;
-        //$w["customerMobile"] = null;
-        if (!empty($arr["wc_nimbuscloud_firstevent_id"][0])) $w["firstEvent"] = $arr["wc_nimbuscloud_firstevent_id"][0];
-        else $w["firstEvent"] = \plugins\goo1\nimbuscloud\api::get_first_starttermin_id($w["course-id"]);
-        //$w["newsletter"] = null;
-        //$w["partnerAccountOwner"] = null;
-        //$w["partnerBic"] = null;
-        //$w["partnerBirthday"] = null;
-        //$w["partnerCity"] = null;
-        //$w["partnerFirstname"] = null;
-        //$w["partnerGender"] = null;
-        //$w["partnerIban"] = null;
-        //$w["partnerMail"] = null;
-        //$w["partnerMobile"] = null;
-        //$w["partnerPhone"] = null;
-        //$w["partnerStreet"] = null;
-        //$w["partnerSurname"] = null;
-        //$w["partnerZIP"] = null;
-        //$w["payment-id"] = date("YmdHis");
-        $w["paymentMethod"] = "bank";
-        //$w["perform-registration"] = false; //Zahlung durchgeführt
-        //$w["registration-legalGuardian"] = false;
-        $w["typeOfRegistration"] = "course-".$w["course-id"];
-        $w["typeOfRegistrationText"] = "---";
+          $w = array();
+          $w["customerCity"] = $order->get_billing_city();
+          $w["customerFirstname"] = $order->get_billing_first_name();
+          $w["customerGender"] = "m";
+          $w["customerPhone"] = $order->get_billing_phone();
+          $w["customerStreet"] = $order->get_billing_address_1();
+          $w["customerSurname"] = $order->get_billing_last_name();
+          $w["customerZIP"] = $order->get_billing_postcode();
+          //$w["coupon-id"] = null;
+          $w["course-id"] = $arr["wc_nimbuscloud_course_id"][0];
+          if (!empty($arr["wc_nimbuscloud_courseonline_id"][0])) $w["course-onlineid"] = $arr["wc_nimbuscloud_courseonline_id"][0];
+          else $w["course-onlineid"] = \plugins\goo1\nimbuscloud\api::get_first_onlinecourse_id($w["course-id"]);
+          //$w["customerAccountOwner"] = null;
+          //$w["customerBic"] = null;
+          //$w["customerBirthday"] = null;
+          //$w["customerIban"] = null;
+          $w["customerMail"] = $order->get_billing_email();
+          $w["customerMessage"] = $anmerkungen;
+          //$w["customerMobile"] = null;
+          if (!empty($arr["wc_nimbuscloud_firstevent_id"][0])) $w["firstEvent"] = $arr["wc_nimbuscloud_firstevent_id"][0];
+          else $w["firstEvent"] = \plugins\goo1\nimbuscloud\api::get_first_starttermin_id($w["course-id"]);
+          //$w["newsletter"] = null;
+          //$w["partnerAccountOwner"] = null;
+          //$w["partnerBic"] = null;
+          //$w["partnerBirthday"] = null;
+          //$w["partnerCity"] = null;
+          //$w["partnerFirstname"] = null;
+          //$w["partnerGender"] = null;
+          //$w["partnerIban"] = null;
+          //$w["partnerMail"] = null;
+          //$w["partnerMobile"] = null;
+          //$w["partnerPhone"] = null;
+          //$w["partnerStreet"] = null;
+          //$w["partnerSurname"] = null;
+          //$w["partnerZIP"] = null;
+          //$w["payment-id"] = date("YmdHis");
+          $w["paymentMethod"] = "bank";
+          //$w["perform-registration"] = false; //Zahlung durchgeführt
+          //$w["registration-legalGuardian"] = false;
+          $w["typeOfRegistration"] = "course-".$w["course-id"];
+          $w["typeOfRegistrationText"] = "---";
 
-        $json = \plugins\goo1\nimbuscloud\api::requestPOST('/api/json/v1/online-registration/register', $w);
+          $json = \plugins\goo1\nimbuscloud\api::requestPOST('/api/json/v1/online-registration/register', $w);
 
-        $order->add_order_note(json_encode($json, JSON_PRETTY_PRINT));
+          $order->add_order_note(json_encode($json, JSON_PRETTY_PRINT));
+      }
     }
 }
 

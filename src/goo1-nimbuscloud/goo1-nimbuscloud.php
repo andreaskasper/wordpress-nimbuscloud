@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/andreaskasper/wordpress-nimbuscloud
  * Description: Connect Nimbuscloud to your Wordpress
  * Author: Andreas Kasper
- * Version: 0.1.9
+ * Version: 0.1.10
  * Author URI: https://github.com/andreaskasper/
  * Network: True
  * Text Domain: goo1-nimbuscloud
