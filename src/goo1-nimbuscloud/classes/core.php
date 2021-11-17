@@ -156,9 +156,11 @@ class core {
           foreach ($item_meta_data as $a) {
             $a2 = $a->get_data();
             if (empty($a2["key"]) OR !isset($a2["value"])) continue;
+            if (substr($a2["key"],0,1) == "_") continue;
             $anmerkungen .= $a2["key"].": ".$a2["value"].PHP_EOL;
           }
           $anmerkungen .= "----------".PHP_EOL.json_encode(get_post_meta($order_id));
+          $anmerkungen = nl2br($anmerkungen);
 
           $w = array();
           $w["customerCity"] = $order->get_billing_city();
