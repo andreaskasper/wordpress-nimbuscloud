@@ -46,7 +46,7 @@ class core {
     $product_data_tabs['vimeo'] = array(
       'label' => __('NimbusCloud', 'goo1-nimbuscloud'),
       'target' => 'wc_nimbuscloud_id',
-          'class'  => array('show_if_virtual'),
+          'class'  => array('show_if_virtual','show_if_variant'),
     );
     return $product_data_tabs;
   });
@@ -64,7 +64,7 @@ class core {
   
       woocommerce_wp_select(array(
           'id'            => 'wc_nimbuscloud_course_id',
-          'wrapper_class' => 'show_if_simple',
+          'wrapper_class' => 'show_if_simple show_if_variant',
           "desc_tip" => true,
           'label'         => __('Kurs:', 'goo1-nimbuscloud'),
           'description'   => __('abc', 'goo1-nimbuscloud'),
