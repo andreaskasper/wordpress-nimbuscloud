@@ -33,7 +33,7 @@ function variation_settings_fields( $loop, $variation_data, $variation ) {
             'id'            => "wc_nimbuscloud_firstevent_id{$loop}",
             'name'          => "wc_nimbuscloud_firstevent_id[{$loop}]",
             'value'         => get_post_meta( $variation->ID, 'wc_nimbuscloud_firstevent_id', true ),
-            'label'         => __( 'Nimbus Kurs:', 'woocommerce' ),
+            'label'         => __( 'Nimbus Starttermin ID:', 'woocommerce' ),
             'desc_tip'      => true,
             'description'   => __( 'War zu faul hier was zu schreiben.', 'woocommerce' ),
             'wrapper_class' => 'form-row form-row-full',

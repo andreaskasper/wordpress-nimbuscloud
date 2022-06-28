@@ -1,11 +1,11 @@
 {
     "name": "goo1 Nimbuscloud Plugin",
-    "version": "0.1.15",
+    "version": "0.1.16",
     "download_url": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-nimbuscloud\/main\/dist\/goo1-nimbuscloud.zip",
     "homepage": "https:\/\/github.com\/andreaskasper\/wordpress-nimbuscloud\/",
     "requires": "3.5",
     "tested": "5.8.2",
-    "last_updated": "2022-06-28 06:39:34",
+    "last_updated": "2022-06-28 06:50:19",
     "upgrade_notice": "This new version brings a few bugfixes and a lot of new features and enhancements.",
     "author": "Andreas Kasper",
     "author_homepage": "https:\/\/github.com\/andreaskasper\/",
