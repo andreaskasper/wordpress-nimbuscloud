@@ -6,12 +6,36 @@ add_filter( 'woocommerce_available_variation', 'load_variation_settings_fields' 
 function variation_settings_fields( $loop, $variation_data, $variation ) {
     woocommerce_wp_text_input(
         array(
-            'id'            => "my_text_field{$loop}",
-            'name'          => "my_text_field[{$loop}]",
-            'value'         => get_post_meta( $variation->ID, 'my_text_field', true ),
-            'label'         => __( 'Some label', 'woocommerce' ),
+            'id'            => "wc_nimbuscloud_course_id{$loop}",
+            'name'          => "wc_nimbuscloud_course_id[{$loop}]",
+            'value'         => get_post_meta( $variation->ID, 'wc_nimbuscloud_course_id', true ),
+            'label'         => __( 'Nimbus Kurs:', 'woocommerce' ),
             'desc_tip'      => true,
-            'description'   => __( 'Some description.', 'woocommerce' ),
+            'description'   => __( 'War zu faul hier was zu schreiben.', 'woocommerce' ),
+            'wrapper_class' => 'form-row form-row-full',
+        )
+    );
+
+    woocommerce_wp_text_input(
+        array(
+            'id'            => "wc_nimbuscloud_courseonline_id{$loop}",
+            'name'          => "wc_nimbuscloud_courseonline_id[{$loop}]",
+            'value'         => get_post_meta( $variation->ID, 'wc_nimbuscloud_courseonline_id', true ),
+            'label'         => __( 'Nimbus Online Kurs:', 'woocommerce' ),
+            'desc_tip'      => true,
+            'description'   => __( 'War zu faul hier was zu schreiben.', 'woocommerce' ),
+            'wrapper_class' => 'form-row form-row-full',
+        )
+    );
+
+    woocommerce_wp_text_input(
+        array(
+            'id'            => "wc_nimbuscloud_firstevent_id{$loop}",
+            'name'          => "wc_nimbuscloud_firstevent_id[{$loop}]",
+            'value'         => get_post_meta( $variation->ID, 'wc_nimbuscloud_firstevent_id', true ),
+            'label'         => __( 'Nimbus Kurs:', 'woocommerce' ),
+            'desc_tip'      => true,
+            'description'   => __( 'War zu faul hier was zu schreiben.', 'woocommerce' ),
             'wrapper_class' => 'form-row form-row-full',
         )
     );
@@ -20,13 +44,16 @@ function variation_settings_fields( $loop, $variation_data, $variation ) {
 function save_variation_settings_fields( $variation_id, $loop ) {
     $text_field = $_POST['my_text_field'][ $loop ];
 
-    if ( ! empty( $text_field ) ) {
-        update_post_meta( $variation_id, 'my_text_field', esc_attr( $text_field ));
-    }
+    if (isset($_POST['wc_nimbuscloud_course_id'])) update_post_meta($variation_id, "wc_nimbuscloud_course_id", $_POST['wc_nimbuscloud_course_id'][ $loop ] ?? "");
+    if (isset($_POST['wc_nimbuscloud_courseonline_id'])) update_post_meta($variation_id, "wc_nimbuscloud_courseonline_id", $_POST['wc_nimbuscloud_courseonline_id'][ $loop ] ?? "");
+    if (isset($_POST['wc_nimbuscloud_firstevent_id'])) update_post_meta($variation_id, "wc_nimbuscloud_firstevent_id", $_POST['wc_nimbuscloud_firstevent_id'][ $loop ] ?? "");
+
 }
 
 function load_variation_settings_fields( $variation ) {     
-    $variation['my_text_field'] = get_post_meta( $variation[ 'variation_id' ], 'my_text_field', true );
+    $variation['wc_nimbuscloud_course_id'] = get_post_meta( $variation[ 'variation_id' ], 'wc_nimbuscloud_course_id', true );
+    $variation['wc_nimbuscloud_courseonline_id'] = get_post_meta( $variation[ 'variation_id' ], 'wc_nimbuscloud_courseonline_id', true );
+    $variation['wc_nimbuscloud_firstevent_id'] = get_post_meta( $variation[ 'variation_id' ], 'wc_nimbuscloud_firstevent_id', true );
 
     return $variation;
 }
