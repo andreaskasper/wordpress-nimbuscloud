@@ -9,6 +9,9 @@ class core {
     //self::activate_testmode();
 
 
+    include(__DIR__."/field_variation.php");
+
+
     add_action('admin_init', function() {
       register_setting( 'general', 'goo1_nimbuscloud_apikey', array(
           'show_in_rest' => false,
@@ -83,7 +86,7 @@ class core {
   
       woocommerce_wp_select(array(
           'id'            => 'wc_nimbuscloud_courseonline_id',
-          'wrapper_class' => 'show_if_simple',
+          'wrapper_class' => 'show_if_simple show_if_variant',
           "desc_tip" => true,
           'label'         => __('Online Kurs:', 'goo1-nimbuscloud'),
           'description'   => __('abc', 'goo1-nimbuscloud'),
@@ -100,7 +103,7 @@ class core {
   
       woocommerce_wp_select(array(
           'id'            => 'wc_nimbuscloud_firstevent_id',
-          'wrapper_class' => 'show_if_simple',
+          'wrapper_class' => 'show_if_simple show_if_variant',
           "desc_tip" => true,
           'label'         => __('Starttermin ID', 'goo1-nimbuscloud'),
           'description'   => __('abc', 'goo1-nimbuscloud'),
